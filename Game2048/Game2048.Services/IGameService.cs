@@ -4,6 +4,6 @@
     {
         int[,] RestartGameField(int[,] gameGrid);
 
-        void MoveKey(string keyCode, int[,] gameGrid);
+        bool MoveKey(string keyCode, int[,] gameGrid);
     }
 }

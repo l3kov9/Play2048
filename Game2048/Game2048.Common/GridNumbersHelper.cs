@@ -12,7 +12,7 @@
             {
                 for (int k = 0; k < gameField.GetLength(1); k++)
                 {
-                    if(gameField[i,k] != 0)
+                    if (gameField[i, k] != 0)
                     {
                         numbers.Add(gameField[i, k]);
                     }

@@ -1,19 +1,20 @@
 ﻿namespace Game2048.Services.Implementations
 {
     using System;
-    using System.Collections.Generic;
     using static Common.GameConstants;
 
     public class GameService : IGameService
     {
-        public void MoveKey(string keyCode, int[,] gameGrid)
+        public bool MoveKey(string keyCode, int[,] gameGrid)
         {
             var direction = ReadKeyDirection(keyCode);
 
-            MoveGrid(gameGrid, direction);
+            var isMoved = MoveGrid(gameGrid, direction);
+
+            return isMoved;
         }
 
-        private void MoveGrid(int[,] gameGrid, string direction)
+        private bool MoveGrid(int[,] gameGrid, string direction)
         {
             var isMoved = false;
 
@@ -35,60 +36,9 @@
                     break;
             }
 
-            if (isMoved)
-            {
-                AddRandomNumber(gameGrid);
-            }
+            return isMoved;
         }
-
-        private void AddRandomNumber(int[,] gameGrid)
-        {
-            var zeroIndexes = new List<int>();
-            var index = 0;
-
-            for (int i = 0; i < gameGrid.GetLength(0); i++)
-            {
-                for (int k = 0; k < gameGrid.GetLength(1); k++)
-                {
-                    if (gameGrid[i, k] == 0)
-                    {
-                        zeroIndexes.Add(index);
-                    }
-
-                    index++;
-                }
-            }
-
-            var rnd = new Random();
-            var indexNumberToChange = zeroIndexes[rnd.Next(0, zeroIndexes.Count)];
-
-            var row = 0;
-            var col = 0;
-
-            if (indexNumberToChange < FieldSize)
-            {
-                row = 0;
-                col = indexNumberToChange;
-            }
-            else if (indexNumberToChange < FieldSize * 2)
-            {
-                row = 1;
-                col = indexNumberToChange - FieldSize;
-            }
-            else if (indexNumberToChange < FieldSize * 3)
-            {
-                row = 2;
-                col = indexNumberToChange - FieldSize * 2;
-            }
-            else
-            {
-                row = 3;
-                col = indexNumberToChange - FieldSize * 3;
-            }
-
-            gameGrid[row, col] = rnd.Next(1, 101) > 20 ? 2 : 4;
-        }
-
+        
         private bool MoveRight(int[,] gameGrid)
         {
             var isMoved = false;
@@ -184,6 +134,7 @@
                             for (int j = k; j < gameGrid.GetLength(1) - 1; j++)
                             {
                                 gameGrid[i, j] = gameGrid[i, j + 1];
+                                gameGrid[i, j + 1] = 0;
                             }
                         }
                     }
