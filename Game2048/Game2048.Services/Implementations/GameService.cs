@@ -15,25 +15,30 @@
 
         private void MoveGrid(int[,] gameGrid, string direction)
         {
+            var isMoved = false;
+
             switch (direction)
             {
                 case "left":
-                    MoveLeft(gameGrid);
+                    isMoved = MoveLeft(gameGrid);
                     break;
                 case "right":
-                    MoveRight(gameGrid);
+                    isMoved = MoveRight(gameGrid);
                     break;
                 case "up":
-                    MoveUp(gameGrid);
+                    isMoved = MoveUp(gameGrid);
                     break;
                 case "down":
-                    MoveDown(gameGrid);
+                    isMoved = MoveDown(gameGrid);
                     break;
                 default:
                     break;
             }
 
-            AddRandomNumber(gameGrid);
+            if (isMoved)
+            {
+                AddRandomNumber(gameGrid);
+            }
         }
 
         private void AddRandomNumber(int[,] gameGrid)
@@ -84,8 +89,10 @@
             gameGrid[row, col] = rnd.Next(1, 101) > 20 ? 2 : 4;
         }
 
-        private void MoveRight(int[,] gameGrid)
+        private bool MoveRight(int[,] gameGrid)
         {
+            var isMoved = false;
+
             for (int i = gameGrid.GetLength(0) - 1; i >= 0; i--)
             {
                 var hasPositiveNumbers = false;
@@ -104,7 +111,7 @@
                     {
                         gameGrid[i, k + 1] = currentNumber;
                         gameGrid[i, k] = 0;
-
+                        isMoved = true;
                         k = gameGrid.GetLength(1) - 1;
                     }
                 }
@@ -130,10 +137,14 @@
                     }
                 }
             }
+
+            return isMoved;
         }
 
-        private void MoveLeft(int[,] gameGrid)
+        private bool MoveLeft(int[,] gameGrid)
         {
+            var isMoved = false;
+
             for (int i = 0; i < gameGrid.GetLength(0); i++)
             {
                 var hasPositiveNumbers = false;
@@ -153,6 +164,7 @@
                         gameGrid[i, k - 1] = currentNumber;
                         gameGrid[i, k] = 0;
 
+                        isMoved = true;
                         k = 0;
                     }
                 }
@@ -177,10 +189,14 @@
                     }
                 }
             }
+
+            return isMoved;
         }
 
-        private void MoveDown(int[,] gameGrid)
+        private bool MoveDown(int[,] gameGrid)
         {
+            var isMoved = false;
+
             for (int i = gameGrid.GetLength(0) - 2; i >= 0; i--)
             {
                 for (int k = gameGrid.GetLength(1) - 1; k >= 0; k--)
@@ -192,6 +208,7 @@
                     {
                         gameGrid[i + 1, k] = currentNumber;
                         gameGrid[i, k] = 0;
+                        isMoved = true;
                         i = gameGrid.GetLength(0) - 2;
                         k = gameGrid.GetLength(1);
                     }
@@ -218,10 +235,14 @@
                     }
                 }
             }
+
+            return isMoved;
         }
 
-        private void MoveUp(int[,] gameGrid)
+        private bool MoveUp(int[,] gameGrid)
         {
+            var isMoved = false;
+
             for (int i = 0; i < gameGrid.GetLength(0); i++)
             {
                 var hasPositiveNumbers = false;
@@ -240,6 +261,7 @@
                     {
                         gameGrid[k - 1, i] = currentNumber;
                         gameGrid[k, i] = 0;
+                        isMoved = true;
                         k = 0;
                     }
                 }
@@ -265,6 +287,8 @@
                     }
                 }
             }
+
+            return isMoved;
         }
 
         private static string ReadKeyDirection(string keyCode)
