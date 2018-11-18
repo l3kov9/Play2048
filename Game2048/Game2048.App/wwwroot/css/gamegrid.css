@@ -11,9 +11,9 @@ td {
     font-family: NSimSun;
 }
 
-    td:hover {
-        background-color: white;
-    }
+#inputField:hover {
+    background-color: white;
+}
 
 #inputField {
     background-color:cornflowerblue;
