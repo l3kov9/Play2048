@@ -14,3 +14,14 @@ td {
     td:hover {
         background-color: white;
     }
+
+#inputField {
+    background-color:cornflowerblue;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 50px;
+    font-family: NSimSun;
+}

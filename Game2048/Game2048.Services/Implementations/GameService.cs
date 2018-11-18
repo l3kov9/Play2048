@@ -73,8 +73,9 @@
                         var previousNumber = gameGrid[i, k + 1];
                         var currentNumber = gameGrid[i, k];
 
-                        if (previousNumber == currentNumber)
+                        if (previousNumber == currentNumber && currentNumber != 0)
                         {
+                            isMoved = true;
                             gameGrid[i, k + 1] = currentNumber * 2;
                             gameGrid[i, k] = 0;
 
@@ -128,6 +129,7 @@
 
                         if (previousNumber == currentNumber && currentNumber != 0)
                         {
+                            isMoved = true;
                             gameGrid[i, k - 1] = currentNumber * 2;
                             gameGrid[i, k] = 0;
 
@@ -175,6 +177,7 @@
 
                     if (previousNumber == currentNumber && currentNumber != 0)
                     {
+                        isMoved = true;
                         gameGrid[k + 1, i] = currentNumber * 2;
                         gameGrid[k, i] = 0;
 
@@ -226,6 +229,7 @@
 
                         if (previousNumber == currentNumber && currentNumber != 0)
                         {
+                            isMoved = true;
                             gameGrid[k - 1, i] = currentNumber * 2;
                             gameGrid[k, i] = 0;
 
