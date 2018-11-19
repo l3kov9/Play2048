@@ -1,36 +1,36 @@
 ﻿namespace Game2048.Services.Implementations
 {
+    using Models;
     using System;
     using static Common.GameConstants;
 
     public class GameService : IGameService
     {
-        public bool MoveKey(string keyCode, int[,] gameGrid)
+        public bool MoveKey(string keyCode, GameGridServiceModel game)
         {
             var direction = ReadKeyDirection(keyCode);
-
-            var isMoved = MoveGrid(gameGrid, direction);
+            var isMoved = MoveGrid(game, direction);
 
             return isMoved;
         }
 
-        private bool MoveGrid(int[,] gameGrid, string direction)
+        private bool MoveGrid(GameGridServiceModel game, string direction)
         {
             var isMoved = false;
 
             switch (direction)
             {
                 case "left":
-                    isMoved = MoveLeft(gameGrid);
+                    isMoved = MoveLeft(game);
                     break;
                 case "right":
-                    isMoved = MoveRight(gameGrid);
+                    isMoved = MoveRight(game);
                     break;
                 case "up":
-                    isMoved = MoveUp(gameGrid);
+                    isMoved = MoveUp(game);
                     break;
                 case "down":
-                    isMoved = MoveDown(gameGrid);
+                    isMoved = MoveDown(game);
                     break;
                 default:
                     break;
@@ -38,19 +38,19 @@
 
             return isMoved;
         }
-        
-        private bool MoveRight(int[,] gameGrid)
+
+        private bool MoveRight(GameGridServiceModel game)
         {
             var isMoved = false;
 
-            for (int i = gameGrid.GetLength(0) - 1; i >= 0; i--)
+            for (int i = game.Field.GetLength(0) - 1; i >= 0; i--)
             {
                 var hasPositiveNumbers = false;
 
-                for (int k = gameGrid.GetLength(1) - 2; k >= 0; k--)
+                for (int k = game.Field.GetLength(1) - 2; k >= 0; k--)
                 {
-                    var previousNumber = gameGrid[i, k + 1];
-                    var currentNumber = gameGrid[i, k];
+                    var previousNumber = game.Field[i, k + 1];
+                    var currentNumber = game.Field[i, k];
 
                     if (currentNumber != 0)
                     {
@@ -59,30 +59,31 @@
 
                     if (previousNumber == 0 && currentNumber != 0)
                     {
-                        gameGrid[i, k + 1] = currentNumber;
-                        gameGrid[i, k] = 0;
+                        game.Field[i, k + 1] = currentNumber;
+                        game.Field[i, k] = 0;
                         isMoved = true;
-                        k = gameGrid.GetLength(1) - 1;
+                        k = game.Field.GetLength(1) - 1;
                     }
                 }
 
                 if (hasPositiveNumbers)
                 {
-                    for (int k = gameGrid.GetLength(1) - 2; k >= 0; k--)
+                    for (int k = game.Field.GetLength(1) - 2; k >= 0; k--)
                     {
-                        var previousNumber = gameGrid[i, k + 1];
-                        var currentNumber = gameGrid[i, k];
+                        var previousNumber = game.Field[i, k + 1];
+                        var currentNumber = game.Field[i, k];
 
                         if (previousNumber == currentNumber && currentNumber != 0)
                         {
                             isMoved = true;
-                            gameGrid[i, k + 1] = currentNumber * 2;
-                            gameGrid[i, k] = 0;
+                            game.Field[i, k + 1] = currentNumber * 2;
+                            game.Field[i, k] = 0;
+                            game.CurrentScore += game.Field[i, k + 1];
 
                             for (int j = k; j > 0; j--)
                             {
-                                gameGrid[i, j] = gameGrid[i, j - 1];
-                                gameGrid[i, j - 1] = 0;
+                                game.Field[i, j] = game.Field[i, j - 1];
+                                game.Field[i, j - 1] = 0;
                             }
                         }
                     }
@@ -92,18 +93,18 @@
             return isMoved;
         }
 
-        private bool MoveLeft(int[,] gameGrid)
+        private bool MoveLeft(GameGridServiceModel game)
         {
             var isMoved = false;
 
-            for (int i = 0; i < gameGrid.GetLength(0); i++)
+            for (int i = 0; i < game.Field.GetLength(0); i++)
             {
                 var hasPositiveNumbers = false;
 
-                for (int k = 1; k < gameGrid.GetLength(1); k++)
+                for (int k = 1; k < game.Field.GetLength(1); k++)
                 {
-                    var previousNumber = gameGrid[i, k - 1];
-                    var currentNumber = gameGrid[i, k];
+                    var previousNumber = game.Field[i, k - 1];
+                    var currentNumber = game.Field[i, k];
 
                     if (currentNumber != 0)
                     {
@@ -112,8 +113,8 @@
 
                     if (previousNumber == 0 && currentNumber != 0)
                     {
-                        gameGrid[i, k - 1] = currentNumber;
-                        gameGrid[i, k] = 0;
+                        game.Field[i, k - 1] = currentNumber;
+                        game.Field[i, k] = 0;
 
                         isMoved = true;
                         k = 0;
@@ -122,21 +123,22 @@
 
                 if (hasPositiveNumbers)
                 {
-                    for (int k = 1; k < gameGrid.GetLength(1); k++)
+                    for (int k = 1; k < game.Field.GetLength(1); k++)
                     {
-                        var previousNumber = gameGrid[i, k - 1];
-                        var currentNumber = gameGrid[i, k];
+                        var previousNumber = game.Field[i, k - 1];
+                        var currentNumber = game.Field[i, k];
 
                         if (previousNumber == currentNumber && currentNumber != 0)
                         {
                             isMoved = true;
-                            gameGrid[i, k - 1] = currentNumber * 2;
-                            gameGrid[i, k] = 0;
+                            game.Field[i, k - 1] = currentNumber * 2;
+                            game.Field[i, k] = 0;
+                            game.CurrentScore += game.Field[i, k - 1];
 
-                            for (int j = k; j < gameGrid.GetLength(1) - 1; j++)
+                            for (int j = k; j < game.Field.GetLength(1) - 1; j++)
                             {
-                                gameGrid[i, j] = gameGrid[i, j + 1];
-                                gameGrid[i, j + 1] = 0;
+                                game.Field[i, j] = game.Field[i, j + 1];
+                                game.Field[i, j + 1] = 0;
                             }
                         }
                     }
@@ -146,45 +148,46 @@
             return isMoved;
         }
 
-        private bool MoveDown(int[,] gameGrid)
+        private bool MoveDown(GameGridServiceModel game)
         {
             var isMoved = false;
 
-            for (int i = gameGrid.GetLength(0) - 2; i >= 0; i--)
+            for (int i = game.Field.GetLength(0) - 2; i >= 0; i--)
             {
-                for (int k = gameGrid.GetLength(1) - 1; k >= 0; k--)
+                for (int k = game.Field.GetLength(1) - 1; k >= 0; k--)
                 {
-                    var previousNumber = gameGrid[i + 1, k];
-                    var currentNumber = gameGrid[i, k];
+                    var previousNumber = game.Field[i + 1, k];
+                    var currentNumber = game.Field[i, k];
 
                     if (previousNumber == 0 && currentNumber != 0)
                     {
-                        gameGrid[i + 1, k] = currentNumber;
-                        gameGrid[i, k] = 0;
+                        game.Field[i + 1, k] = currentNumber;
+                        game.Field[i, k] = 0;
                         isMoved = true;
-                        i = gameGrid.GetLength(0) - 2;
-                        k = gameGrid.GetLength(1);
+                        i = game.Field.GetLength(0) - 2;
+                        k = game.Field.GetLength(1);
                     }
                 }
             }
 
-            for (int i = gameGrid.GetLength(0) - 1; i >= 0; i--)
+            for (int i = game.Field.GetLength(0) - 1; i >= 0; i--)
             {
-                for (int k = gameGrid.GetLength(1) - 2; k >= 0; k--)
+                for (int k = game.Field.GetLength(1) - 2; k >= 0; k--)
                 {
-                    var previousNumber = gameGrid[k + 1, i];
-                    var currentNumber = gameGrid[k, i];
+                    var previousNumber = game.Field[k + 1, i];
+                    var currentNumber = game.Field[k, i];
 
                     if (previousNumber == currentNumber && currentNumber != 0)
                     {
                         isMoved = true;
-                        gameGrid[k + 1, i] = currentNumber * 2;
-                        gameGrid[k, i] = 0;
+                        game.Field[k + 1, i] = currentNumber * 2;
+                        game.Field[k, i] = 0;
+                        game.CurrentScore += game.Field[k + 1, i];
 
                         for (int j = k; j > 0; j--)
                         {
-                            gameGrid[j, i] = gameGrid[j - 1, i];
-                            gameGrid[j - 1, i] = 0;
+                            game.Field[j, i] = game.Field[j - 1, i];
+                            game.Field[j - 1, i] = 0;
                         }
                     }
                 }
@@ -193,18 +196,18 @@
             return isMoved;
         }
 
-        private bool MoveUp(int[,] gameGrid)
+        private bool MoveUp(GameGridServiceModel game)
         {
             var isMoved = false;
 
-            for (int i = 0; i < gameGrid.GetLength(0); i++)
+            for (int i = 0; i < game.Field.GetLength(0); i++)
             {
                 var hasPositiveNumbers = false;
 
-                for (int k = 1; k < gameGrid.GetLength(1); k++)
+                for (int k = 1; k < game.Field.GetLength(1); k++)
                 {
-                    var previousNumber = gameGrid[k - 1, i];
-                    var currentNumber = gameGrid[k, i];
+                    var previousNumber = game.Field[k - 1, i];
+                    var currentNumber = game.Field[k, i];
 
                     if (currentNumber != 0)
                     {
@@ -213,8 +216,8 @@
 
                     if (previousNumber == 0 && currentNumber != 0)
                     {
-                        gameGrid[k - 1, i] = currentNumber;
-                        gameGrid[k, i] = 0;
+                        game.Field[k - 1, i] = currentNumber;
+                        game.Field[k, i] = 0;
                         isMoved = true;
                         k = 0;
                     }
@@ -222,21 +225,22 @@
 
                 if (hasPositiveNumbers)
                 {
-                    for (int k = 1; k < gameGrid.GetLength(1); k++)
+                    for (int k = 1; k < game.Field.GetLength(1); k++)
                     {
-                        var previousNumber = gameGrid[k - 1, i];
-                        var currentNumber = gameGrid[k, i];
+                        var previousNumber = game.Field[k - 1, i];
+                        var currentNumber = game.Field[k, i];
 
                         if (previousNumber == currentNumber && currentNumber != 0)
                         {
                             isMoved = true;
-                            gameGrid[k - 1, i] = currentNumber * 2;
-                            gameGrid[k, i] = 0;
+                            game.Field[k - 1, i] = currentNumber * 2;
+                            game.Field[k, i] = 0;
+                            game.CurrentScore += game.Field[k - 1, i];
 
-                            for (int j = k; j < gameGrid.GetLength(1) - 1; j++)
+                            for (int j = k; j < game.Field.GetLength(1) - 1; j++)
                             {
-                                gameGrid[j, i] = gameGrid[j + 1, i];
-                                gameGrid[j + 1, i] = 0;
+                                game.Field[j, i] = game.Field[j + 1, i];
+                                game.Field[j + 1, i] = 0;
                             }
                         }
                     }
@@ -271,9 +275,9 @@
             return direction;
         }
 
-        public int[,] RestartGameField(int[,] gameGrid)
+        public int[,] RestartGameField()
         {
-            gameGrid = new int[FieldSize, FieldSize];
+            var gameGrid = new int[FieldSize, FieldSize];
             var hasNumberFour = false;
             var rnd = new Random();
 

@@ -1,9 +1,11 @@
 ﻿namespace Game2048.Services
 {
+    using Models;
+
     public interface IGameService
     {
-        int[,] RestartGameField(int[,] gameGrid);
+        int[,] RestartGameField();
 
-        bool MoveKey(string keyCode, int[,] gameGrid);
+        bool MoveKey(string keyCode, GameGridServiceModel gameGrid);
     }
 }

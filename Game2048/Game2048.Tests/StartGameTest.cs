@@ -20,18 +20,15 @@ namespace Game2048.Tests
         [TestMethod]
         public void FieldGetsCorrectValues()
         {
-            var game = new GameGrid();
+            var game = new Game();
 
             for (int i = 0; i < 1000; i++)
             {
-                game.Field = games.RestartGameField(game.Field);
-
+                game.Field = games.RestartGameField();
                 var nonZeroNumbers = GridNumbersHelper.GetNonZeroNumbers(game.Field);
 
                 Assert.AreEqual(2, nonZeroNumbers.Count);
-
                 Assert.AreEqual(2, nonZeroNumbers.Count(n => n == 2 || n == 4));
-
                 Assert.IsTrue(nonZeroNumbers.Sum() == 4 || nonZeroNumbers.Sum() == 6);
             }
         }

@@ -4,18 +4,20 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Services;
     using Services.Implementations;
+    using Services.Models;
 
     [TestClass]
     public class ArrowKeysTest
     {
         private IGameService games;
-        private GameGrid game;
+        private Game game;
+        private GameGridServiceModel serviceGame;
 
         [TestInitialize]
         public void SetInit()
         {
             this.games = new GameService();
-            this.game = new GameGrid
+            this.game = new Game
             {
                 Field = new int[,]
                 {
@@ -25,12 +27,17 @@
                     {16,16,16,16}
                 }
             };
+            this.serviceGame = new GameGridServiceModel()
+            {
+                Field = this.game.Field,
+                CurrentScore = this.game.CurrentScore
+            };
         }
 
         [TestMethod]
         public void RightArrowGetsCorrectValues()
         {
-            this.games.MoveKey("39", this.game.Field);
+            this.games.MoveKey("39", this.serviceGame);
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
                 {
@@ -42,6 +49,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(100, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -57,7 +65,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey("39", this.game.Field);
+                this.games.MoveKey("39", this.serviceGame);
             }
 
             var actualMatrix = this.game.Field;
@@ -72,6 +80,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(164, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -85,7 +94,7 @@
         [TestMethod]
         public void LeftArrowGetsCorrectValues()
         {
-            this.games.MoveKey("37", game.Field);
+            this.games.MoveKey("37", this.serviceGame);
 
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
@@ -98,6 +107,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(100, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -113,7 +123,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey("37", game.Field);
+                this.games.MoveKey("37", this.serviceGame);
             }
 
             var actualMatrix = this.game.Field;
@@ -127,6 +137,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(164, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -140,7 +151,7 @@
         [TestMethod]
         public void UpArrowGetsCorrectValues()
         {
-            this.games.MoveKey("38", game.Field);
+            this.games.MoveKey("38", this.serviceGame);
 
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
@@ -153,6 +164,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(32, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -168,7 +180,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey("38", game.Field);
+                this.games.MoveKey("38", this.serviceGame);
             }
 
             var actualMatrix = this.game.Field;
@@ -182,6 +194,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(96, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -195,7 +208,7 @@
         [TestMethod]
         public void DownArrowGetsCorrectValues()
         {
-            this.games.MoveKey("40", game.Field);
+            this.games.MoveKey("40", this.serviceGame);
 
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
@@ -208,6 +221,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(32, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -223,7 +237,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey("40", game.Field);
+                this.games.MoveKey("40", this.serviceGame);
             }
 
             var actualMatrix = this.game.Field;
@@ -237,6 +251,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(96, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -251,21 +266,18 @@
         public void MixedArrowKeysGetsCorrectValues()
         {
             //left
-            this.games.MoveKey("37", game.Field);
-
+            this.games.MoveKey("37", this.serviceGame);
             //down
-            this.games.MoveKey("40", game.Field);
-
+            this.games.MoveKey("40", this.serviceGame);
             //left
-            this.games.MoveKey("37", game.Field);
-
+            this.games.MoveKey("37", this.serviceGame);
             //right
-            this.games.MoveKey("39", game.Field);
+            this.games.MoveKey("39", this.serviceGame);
 
             for (int i = 0; i < 5; i++)
             {
                 //up
-                this.games.MoveKey("38", game.Field);
+                this.games.MoveKey("38", this.serviceGame);
             }
 
             var actualMatrix = this.game.Field;
@@ -279,6 +291,7 @@
 
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
+            Assert.AreEqual(196, this.serviceGame.CurrentScore);
 
             for (int i = 0; i < actualMatrix.GetLength(0); i++)
             {
@@ -287,6 +300,31 @@
                     Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
                 }
             }
+        }
+
+        [TestMethod]
+        public void CurrentScoreReturnsCorrectValueAfterMixedKeys()
+        {
+            this.serviceGame.Field = new int[,]
+                {
+                    {8,8,16,16},
+                    {2,2,16,64},
+                    {0,32,32,0},
+                    {16,16,16,16}
+                };
+
+            //right
+            this.games.MoveKey("39", this.serviceGame);
+            //up
+            this.games.MoveKey("38", this.serviceGame);
+            //right
+            this.games.MoveKey("39", this.serviceGame);
+            //down
+            this.games.MoveKey("40", this.serviceGame);
+            //right
+            this.games.MoveKey("39", this.serviceGame);
+
+            Assert.AreEqual(468, this.serviceGame.CurrentScore);
         }
     }
 }

@@ -25,3 +25,18 @@ td {
     font-size: 50px;
     font-family: NSimSun;
 }
+
+#scoreField {
+    background-color: lightgreen;
+    height:30px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 25px;
+    font-family: NSimSun;
+}
+
+#gameOverMessage {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
