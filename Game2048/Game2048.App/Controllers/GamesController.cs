@@ -5,7 +5,7 @@
     using Services;
     using Services.Models;
     using System;
-
+    using System.Linq;
     using static Common.GameConstants;
     using static Common.GridNumbersHelper;
 
@@ -20,7 +20,7 @@
             this.game = new Game();
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             this.game.Field = this.games.RestartGameField();
             return View(this.game);
@@ -34,6 +34,7 @@
             this.game.Field = gameServiceModel.Field;
             this.game.CurrentScore = gameServiceModel.CurrentScore;
             this.game.IsFinished = gameServiceModel.IsFinished;
+            this.game.MaxNumber = gameServiceModel.MaxNumber;
 
             return View(game);
         }

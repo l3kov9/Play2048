@@ -10,8 +10,26 @@
         {
             var direction = ReadKeyDirection(keyCode);
             var isMoved = MoveGrid(game, direction);
-
+            FindMaxNumber(game);
             return isMoved;
+        }
+
+        private void FindMaxNumber(GameGridServiceModel game)
+        {
+            var maxNumber = 0;
+
+            for (int i = 0; i < game.Field.GetLength(0); i++)
+            {
+                for (int k = 0; k < game.Field.GetLength(1); k++)
+                {
+                    if (game.Field[i, k] > maxNumber)
+                    {
+                        maxNumber = game.Field[i, k];
+                    }
+                }
+            }
+
+            game.MaxNumber = maxNumber;
         }
 
         private bool MoveGrid(GameGridServiceModel game, string direction)

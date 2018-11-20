@@ -7,5 +7,7 @@
         public int CurrentScore { get; set; }
 
         public bool IsFinished { get; set; }
+
+        public int MaxNumber { get; set; }
     }
 }
