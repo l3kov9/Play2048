@@ -1,16 +1,18 @@
 ﻿namespace Game2048.App.Controllers
 {
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
     using Services.Models;
-    using System;
 
-    using static Common.GameConstants;
     using static Common.GridNumbersHelper;
 
     public class GamesController : Controller
     {
+        private const string SessionGameBoardKeyName = "GameBoard";
+        private const string SessionCurrentScoreKeyName = "CurrentScore";
+
         private readonly IGameService games;
         private readonly Game game;
 
@@ -23,18 +25,34 @@
         public IActionResult Index()
         {
             this.game.Field = this.games.RestartGameField();
+
+            HttpContext.Session.SetString(SessionGameBoardKeyName, ConvertMatrixToString(this.game.Field));
+            HttpContext.Session.SetInt32(SessionCurrentScoreKeyName, 0);
+
             return View(this.game);
         }
 
         [HttpPost]
         public IActionResult Index(string[] matrix, string arrowKey, int currentScore)
         {
+            var currentMatrixAsString = string.Join(",", matrix);
+            var sessionGameBoard = HttpContext.Session.GetString(SessionGameBoardKeyName);
+            var sessionCurrentScore = HttpContext.Session.GetInt32(SessionCurrentScoreKeyName);
+
+            if (currentMatrixAsString != sessionGameBoard || currentScore != sessionCurrentScore)
+            {
+                return NotFound();
+            }
+
             var gameServiceModel = MoveGameField(matrix, arrowKey, currentScore);
 
             this.game.Field = gameServiceModel.Field;
             this.game.CurrentScore = gameServiceModel.CurrentScore;
             this.game.IsFinished = gameServiceModel.IsFinished;
             this.game.MaxNumber = gameServiceModel.MaxNumber;
+
+            HttpContext.Session.SetString(SessionGameBoardKeyName, ConvertMatrixToString(this.game.Field));
+            HttpContext.Session.SetInt32(SessionCurrentScoreKeyName, this.game.CurrentScore);
 
             return PartialView(game);
         }
@@ -48,7 +66,7 @@
             };
 
             var isMoved = this.games.MoveKey(arrowKey, gameServiceModel);
-
+            
             if (isMoved)
             {
                 AddRandomNumber(gameServiceModel.Field);
@@ -93,34 +111,6 @@
                     gameServiceModel.IsFinished = true;
                 }
             }
-        }
-
-        private void AddRandomNumber(int[,] gameGrid)
-        {
-            var rowAndColZeroValues = GetZeroIndexes(gameGrid);
-
-            var rnd = new Random();
-            var randomRowIndex = rowAndColZeroValues[rnd.Next(0, rowAndColZeroValues.Count)];
-
-            var row = randomRowIndex.Key;
-            var col = randomRowIndex.Value;
-            gameGrid[row, col] = rnd.Next(1, 101) > 20 ? 2 : 4;
-        }
-
-        private int[,] GetMatrix(string[] matrix)
-        {
-            var result = new int[FieldSize, FieldSize];
-
-            for (int i = 0; i < result.GetLength(0); i++)
-            {
-                for (int k = 0; k < result.GetLength(1); k++)
-                {
-                    var numberToAdd = matrix[i * FieldSize + k];
-                    result[i, k] = numberToAdd == null ? 0 : int.Parse(numberToAdd);
-                }
-            }
-
-            return result;
         }
     }
 }
