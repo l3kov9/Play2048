@@ -39,6 +39,7 @@
         {
             Assert.AreEqual(false, this.games.MoveKey("37", this.serviceGame));
             Assert.AreEqual(false, this.games.MoveKey("40", this.serviceGame));
+            Assert.AreEqual(32, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -46,6 +47,8 @@
         {
             Assert.AreEqual(true, this.games.MoveKey("39", this.serviceGame));
             Assert.AreEqual(true, this.games.MoveKey("38", this.serviceGame));
+            Assert.AreEqual(32, this.serviceGame.MaxNumber);
         }
     }
 }
+//r u

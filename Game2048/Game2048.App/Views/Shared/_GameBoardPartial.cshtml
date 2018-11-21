@@ -1,10 +1,11 @@
 ﻿@model Game
+
 <form asp-controller="Games" asp-action="Index" method="post" id="gameForm">
     <br />
     <div class="row">
         @{
             var gameOverMessage = Model.IsFinished ? $"Game Over! Final Score: {Model.CurrentScore}" : string.Empty;
-            if(Model.MaxNumber == 2048)
+            if (Model.MaxNumber == 2048)
             {
                 gameOverMessage = "You win! 2048";
             }
@@ -29,6 +30,7 @@
     }
     <div id="arrowInput">
     </div>
+
     <div class="row">
         <div class="col-md-3 col-lg-offset-6">
             <br />

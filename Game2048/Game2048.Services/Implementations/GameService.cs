@@ -11,6 +11,7 @@
             var direction = ReadKeyDirection(keyCode);
             var isMoved = MoveGrid(game, direction);
             FindMaxNumber(game);
+
             return isMoved;
         }
 

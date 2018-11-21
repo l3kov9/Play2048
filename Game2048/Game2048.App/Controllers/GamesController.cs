@@ -5,7 +5,7 @@
     using Services;
     using Services.Models;
     using System;
-    using System.Linq;
+
     using static Common.GameConstants;
     using static Common.GridNumbersHelper;
 
@@ -36,7 +36,7 @@
             this.game.IsFinished = gameServiceModel.IsFinished;
             this.game.MaxNumber = gameServiceModel.MaxNumber;
 
-            return View(game);
+            return PartialView(game);
         }
 
         private GameGridServiceModel MoveGameField(string[] matrix, string arrowKey, int currentScore)

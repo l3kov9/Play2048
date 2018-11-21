@@ -50,14 +50,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(100, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -81,14 +75,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(164, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -108,14 +96,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(100, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -138,14 +120,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(164, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -165,14 +141,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(32, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -195,14 +165,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(96, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -222,14 +186,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(32, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -252,14 +210,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(96, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -292,14 +244,8 @@
             Assert.AreEqual(expectedMatrix.GetLength(0), actualMatrix.GetLength(0));
             Assert.AreEqual(expectedMatrix.GetLength(1), actualMatrix.GetLength(1));
             Assert.AreEqual(196, this.serviceGame.CurrentScore);
-
-            for (int i = 0; i < actualMatrix.GetLength(0); i++)
-            {
-                for (int k = 0; k < actualMatrix.GetLength(1); k++)
-                {
-                    Assert.AreEqual(expectedMatrix[i, k], actualMatrix[i, k]);
-                }
-            }
+            CollectionAssert.AreEqual(expectedMatrix, actualMatrix);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
@@ -325,6 +271,7 @@
             this.games.MoveKey("39", this.serviceGame);
 
             Assert.AreEqual(468, this.serviceGame.CurrentScore);
+            Assert.AreEqual(128, this.serviceGame.MaxNumber);
         }
     }
 }
