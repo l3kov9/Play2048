@@ -1,72 +1,69 @@
 ﻿namespace Game2048.App.Controllers
 {
-    using Microsoft.AspNetCore.Http;
+    using Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Services;
     using Services.Models;
 
-    using static Common.GridNumbersHelper;
+    using static Common.GameConstants;
+    using static Common.GameFieldHelpers;
 
     public class GamesController : Controller
     {
-        private const string SessionGameBoardKeyName = "GameBoard";
-        private const string SessionCurrentScoreKeyName = "CurrentScore";
+        private const string SessionGameFieldKey = "GameField";
+        private const string SessionScoreKey = "CurrentScore";
+        private const string SessionMaxNumKey = "MaxNumber";
 
-        private readonly IGameService games;
+        private readonly IGameService gameManager;
         private readonly Game game;
 
-        public GamesController(IGameService games)
+        public GamesController(IGameService gameManager)
         {
-            this.games = games;
+            this.gameManager = gameManager;
             this.game = new Game();
         }
 
         public IActionResult Index()
         {
-            this.game.Field = this.games.RestartGameField();
+            this.game.Field = this.gameManager.RestartGameField();
 
-            HttpContext.Session.SetString(SessionGameBoardKeyName, ConvertMatrixToString(this.game.Field));
-            HttpContext.Session.SetInt32(SessionCurrentScoreKeyName, 0);
+            this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
+            this.SetSessionInt(SessionScoreKey, 0);
+            this.SetSessionInt(SessionMaxNumKey, 0);
 
             return View(this.game);
         }
 
         [HttpPost]
-        public IActionResult Index(string[] matrix, string arrowKey, int currentScore)
+        public IActionResult Index(string direction)
         {
-            var currentMatrixAsString = string.Join(",", matrix);
-            var sessionGameBoard = HttpContext.Session.GetString(SessionGameBoardKeyName);
-            var sessionCurrentScore = HttpContext.Session.GetInt32(SessionCurrentScoreKeyName);
-
-            if (currentMatrixAsString != sessionGameBoard || currentScore != sessionCurrentScore)
-            {
-                return NotFound();
-            }
-
-            var gameServiceModel = MoveGameField(matrix, arrowKey, currentScore);
+            var gameField = GetMatrixFromString(this.GetSessionString(SessionGameFieldKey));
+            var currentScore = this.GetSessionInt(SessionScoreKey);
+            var gameServiceModel = MoveGameField(gameField, currentScore, direction);
 
             this.game.Field = gameServiceModel.Field;
             this.game.CurrentScore = gameServiceModel.CurrentScore;
             this.game.IsFinished = gameServiceModel.IsFinished;
             this.game.MaxNumber = gameServiceModel.MaxNumber;
 
-            HttpContext.Session.SetString(SessionGameBoardKeyName, ConvertMatrixToString(this.game.Field));
-            HttpContext.Session.SetInt32(SessionCurrentScoreKeyName, this.game.CurrentScore);
+            this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
+            this.SetSessionInt(SessionScoreKey, this.game.CurrentScore);
+            this.SetSessionInt(SessionMaxNumKey, this.game.MaxNumber);
 
-            return PartialView(game);
+            return PartialView("_GameBoardPartial", game);
         }
 
-        private GameGridServiceModel MoveGameField(string[] matrix, string arrowKey, int currentScore)
+        private GameGridServiceModel MoveGameField(int[,] gameField, int currentScore, string direction)
         {
             var gameServiceModel = new GameGridServiceModel()
             {
-                Field = GetMatrix(matrix),
+                Field = gameField,
                 CurrentScore = currentScore
             };
 
-            var isMoved = this.games.MoveKey(arrowKey, gameServiceModel);
-            
+            var isMoved = this.gameManager.MoveKey(gameServiceModel, direction);
+
             if (isMoved)
             {
                 AddRandomNumber(gameServiceModel.Field);
@@ -85,27 +82,28 @@
 
             if (zeroValuesLength == 0)
             {
-                var testGameField = new GameGridServiceModel()
-                {
-                    Field = new int[gameServiceModel.Field.GetLength(0), gameServiceModel.Field.GetLength(1)],
-                    CurrentScore = gameServiceModel.CurrentScore
-                };
+                var testGameField = new int[gameServiceModel.Field.GetLength(0), gameServiceModel.Field.GetLength(1)];
 
-                for (int i = 0; i < gameServiceModel.Field.GetLength(0); i++)
+                for (int i = 0; i < testGameField.GetLength(0); i++)
                 {
-                    for (int k = 0; k < gameServiceModel.Field.GetLength(1); k++)
+                    for (int k = 0; k < testGameField.GetLength(1); k++)
                     {
-                        testGameField.Field[i, k] = gameServiceModel.Field[i, k];
+                        testGameField[i, k] = gameServiceModel.Field[i, k];
                     }
                 }
 
-                for (int i = 37; i <= 40; i++)
+                var testGame = new GameGridServiceModel()
                 {
-                    this.games.MoveKey(i.ToString(), testGameField);
+                    Field = testGameField,
+                    CurrentScore = gameServiceModel.CurrentScore
+                };
+
+                foreach (var direction in Directions)
+                {
+                    this.gameManager.MoveKey(testGame, direction);
                 }
 
-                var testGameNonZeroValuesLength = GetZeroIndexes(testGameField.Field).Count;
-
+                var testGameNonZeroValuesLength = GetZeroIndexes(testGame.Field).Count;
                 if (testGameNonZeroValuesLength == 0)
                 {
                     gameServiceModel.IsFinished = true;

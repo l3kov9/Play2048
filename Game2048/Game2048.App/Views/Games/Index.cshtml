@@ -1,19 +1,16 @@
 ﻿@model Game
-
-<div id="partial">
-    <div class="row">
-        <div class="col-md-3">
-            <h1 id="gameNameHeading"><strong>Play 2048</strong></h1>
-            <a asp-action="Index" class="btn btn-success">New Game</a>
-            <h2 class="text-info" id="gameNameHeading">Join the numbers and get 2048!</h2>
-            <p>
-                HOW TO PLAY: Use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!
-            </p>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-6">
-            @await Html.PartialAsync("_GameBoardPartial", Model)
-        </div>
+<div class="row">
+    <div class="col-md-3">
+        <h1 id="gameNameHeading"><strong>Play 2048</strong></h1>
+        <a asp-action="Index" class="btn btn-success">New Game</a>
+        <h2 class="text-info" id="gameNameHeading">Join the numbers and get 2048!</h2>
+        <p>
+            HOW TO PLAY: Use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!
+        </p>
     </div>
-    <div style="height:50px"></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+        @await Html.PartialAsync("_GameBoardPartial", Model)
+    </div>
 </div>
+<div style="height:50px"></div>

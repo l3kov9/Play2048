@@ -6,6 +6,6 @@
     {
         int[,] RestartGameField();
 
-        bool MoveKey(string keyCode, GameGridServiceModel gameGrid);
+        bool MoveKey(GameGridServiceModel game, string direction);
     }
 }

@@ -6,7 +6,7 @@
 
     using static GameConstants;
 
-    public static class GridNumbersHelper
+    public static class GameFieldHelpers
     {
         public static List<int> GetNonZeroNumbers(int[,] gameField)
         {
@@ -24,24 +24,6 @@
             }
 
             return numbers;
-        }
-
-        public static List<KeyValuePair<int, int>> GetZeroIndexes(int[,] gameField)
-        {
-            var result = new List<KeyValuePair<int, int>>();
-
-            for (int i = 0; i < gameField.GetLength(0); i++)
-            {
-                for (int k = 0; k < gameField.GetLength(1); k++)
-                {
-                    if (gameField[i, k] == 0)
-                    {
-                        result.Add(new KeyValuePair<int, int>(i, k));
-                    }
-                }
-            }
-
-            return result;
         }
 
         public static string ConvertMatrixToString(int[,] field)
@@ -66,8 +48,9 @@
             return result.ToString();
         }
 
-        public static int[,] GetMatrix(string[] matrix)
+        public static int[,] GetMatrixFromString(string gameField)
         {
+            var matrix = gameField.Split(',');
             var result = new int[FieldSize, FieldSize];
 
             for (int i = 0; i < result.GetLength(0); i++)
@@ -75,7 +58,7 @@
                 for (int k = 0; k < result.GetLength(1); k++)
                 {
                     var numberToAdd = matrix[i * FieldSize + k];
-                    result[i, k] = numberToAdd == null ? 0 : int.Parse(numberToAdd);
+                    result[i, k] = numberToAdd == string.Empty ? 0 : int.Parse(numberToAdd);
                 }
             }
 
@@ -92,6 +75,24 @@
             var row = randomRowIndex.Key;
             var col = randomRowIndex.Value;
             gameGrid[row, col] = rnd.Next(1, 101) > 20 ? 2 : 4;
+        }
+
+        public static List<KeyValuePair<int, int>> GetZeroIndexes(int[,] gameField)
+        {
+            var result = new List<KeyValuePair<int, int>>();
+
+            for (int i = 0; i < gameField.GetLength(0); i++)
+            {
+                for (int k = 0; k < gameField.GetLength(1); k++)
+                {
+                    if (gameField[i, k] == 0)
+                    {
+                        result.Add(new KeyValuePair<int, int>(i, k));
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

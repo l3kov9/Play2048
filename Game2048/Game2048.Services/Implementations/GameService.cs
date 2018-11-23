@@ -7,32 +7,40 @@
 
     public class GameService : IGameService
     {
-        public bool MoveKey(string keyCode, GameGridServiceModel game)
+        public int[,] RestartGameField()
         {
-            var direction = ReadKeyDirection(keyCode);
-            var isMoved = MoveGrid(game, direction);
-            FindMaxNumber(game);
+            var gameGrid = new int[FieldSize, FieldSize];
+            var hasNumberFour = false;
+            var rnd = new Random();
 
-            return isMoved;
-        }
-
-        private void FindMaxNumber(GameGridServiceModel game)
-        {
-            var maxNumber = 0;
-
-            for (int i = 0; i < game.Field.GetLength(0); i++)
+            for (int i = 0; i < TotalRndNumbersForStart; i++)
             {
-                for (int k = 0; k < game.Field.GetLength(1); k++)
+                var x = rnd.Next(FieldSize);
+                var y = rnd.Next(FieldSize);
+
+                if (gameGrid[x, y] == 0)
                 {
-                    if (game.Field[i, k] > maxNumber)
+                    if (rnd.Next(1, 101) > 20)
                     {
-                        maxNumber = game.Field[i, k];
+                        gameGrid[x, y] = 2;
                     }
+                    else
+                    {
+                        gameGrid[x, y] = hasNumberFour ? 2 : 4;
+                        hasNumberFour = true;
+                    }
+                }
+                else
+                {
+                    i--;
                 }
             }
 
-            game.MaxNumber = maxNumber;
+            return gameGrid;
         }
+
+        public bool MoveKey(GameGridServiceModel game, string direction)
+            => MoveGrid(game, direction);
 
         private bool MoveGrid(GameGridServiceModel game, string direction)
         {
@@ -56,7 +64,27 @@
                     break;
             }
 
+            UpdateMaxNumber(game);
+
             return isMoved;
+        }
+
+        private void UpdateMaxNumber(GameGridServiceModel game)
+        {
+            var maxNumber = 0;
+
+            for (int i = 0; i < game.Field.GetLength(0); i++)
+            {
+                for (int k = 0; k < game.Field.GetLength(1); k++)
+                {
+                    if (game.Field[i, k] > maxNumber)
+                    {
+                        maxNumber = game.Field[i, k];
+                    }
+                }
+            }
+
+            game.MaxNumber = maxNumber;
         }
 
         private bool MoveRight(GameGridServiceModel game)
@@ -268,63 +296,6 @@
             }
 
             return isMoved;
-        }
-
-        private static string ReadKeyDirection(string keyCode)
-        {
-            var direction = string.Empty;
-
-            switch (keyCode)
-            {
-                case "37":
-                    direction = "left";
-                    break;
-                case "38":
-                    direction = "up";
-                    break;
-                case "39":
-                    direction = "right";
-                    break;
-                case "40":
-                    direction = "down";
-                    break;
-                default:
-                    break;
-            }
-
-            return direction;
-        }
-
-        public int[,] RestartGameField()
-        {
-            var gameGrid = new int[FieldSize, FieldSize];
-            var hasNumberFour = false;
-            var rnd = new Random();
-
-            for (int i = 0; i < 2; i++)
-            {
-                var x = rnd.Next(FieldSize);
-                var y = rnd.Next(FieldSize);
-
-                if (gameGrid[x, y] == 0)
-                {
-                    if (rnd.Next(1, 101) > 20)
-                    {
-                        gameGrid[x, y] = 2;
-                    }
-                    else
-                    {
-                        gameGrid[x, y] = hasNumberFour ? 2 : 4;
-                        hasNumberFour = true;
-                    }
-                }
-                else
-                {
-                    i--;
-                }
-            }
-
-            return gameGrid;
         }
     }
 }

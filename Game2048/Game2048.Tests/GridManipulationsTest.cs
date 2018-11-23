@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     using static Common.GameConstants;
-    using static Common.GridNumbersHelper;
+    using static Common.GameFieldHelpers;
 
     [TestClass]
     public class GridManipulationsTest
@@ -41,20 +41,11 @@
         }
 
         [TestMethod]
-        public void ConvertArrayToMatrixReturnsCorrectMultiArray()
+        public void ConvertStringToMatrixReturnsCorrectValue()
         {
-            var singleArray = new string[] { null, "2", "32", null, "64", "32", null, null, null, "16", "128", "12", "2", "2", null, null };
+            var matrix = GetMatrixFromString("2,,2,128,,8,8,,8,8,,,,16,,16");
 
-            var multiArray = GetMatrix(singleArray);
-            var expectedMatrix = new[,]
-            {
-                {0, 2, 32, 0 },
-                {64, 32, 0, 0 },
-                {0, 16, 128, 12 },
-                { 2, 2, 0, 0 }
-            };
-
-            CollectionAssert.AreEqual(expectedMatrix, multiArray);
+            CollectionAssert.AreEqual(this.grid, matrix);
         }
 
         [TestMethod]
@@ -85,6 +76,21 @@
 
                 field = new int[FieldSize, FieldSize];
             }
+        }
+
+        [TestMethod]
+        public void GetZeroIndexesReturnsCorrectValues()
+        {
+            var result = new List<KeyValuePair<int, int>>
+            {
+                new KeyValuePair<int, int>(0, 1),
+                new KeyValuePair<int, int>(1, 0),
+                new KeyValuePair<int, int>(1, 3),
+                new KeyValuePair<int, int>(2, 2),
+                new KeyValuePair<int, int>(2, 3),
+                new KeyValuePair<int, int>(3, 0),
+                new KeyValuePair<int, int>(3, 2),
+            };
         }
     }
 }

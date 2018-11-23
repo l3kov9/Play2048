@@ -4,12 +4,22 @@
 
     if (gameOverMessage.length === 0) {
         if (keyCode >= 37 && keyCode <= 40) {
-
-            let arrowInput = '<input type="text" value=' + keyCode + ' name="arrowKey" hidden />';
-            $('#arrowInput').html(arrowInput);
+            let direction;
+            switch (keyCode) {
+                case 37: direction = "left";
+                    break;
+                case 38: direction = "up";
+                    break;
+                case 39: direction = "right";
+                    break;
+                case 40: direction = "down";
+                    break;
+                default:
+                    break;
+            }
 
             $.ajax({
-                url: "Games/Index",
+                url: "Games/Index/" + direction,
                 type: "post",
                 data: $("#gameForm").serialize(),
                 success: function (result) {

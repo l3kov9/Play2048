@@ -6,6 +6,8 @@
     using Services.Implementations;
     using Services.Models;
 
+    using static Common.Directions;
+
     [TestClass]
     public class MoveKeyTest
     {
@@ -37,16 +39,16 @@
         [TestMethod]
         public void MoveKeyCommandReturnsFalseIfMatrixNotMoved()
         {
-            Assert.AreEqual(false, this.games.MoveKey("37", this.serviceGame));
-            Assert.AreEqual(false, this.games.MoveKey("40", this.serviceGame));
+            Assert.AreEqual(false, this.games.MoveKey(this.serviceGame, left.ToString()));
+            Assert.AreEqual(false, this.games.MoveKey(this.serviceGame, down.ToString()));
             Assert.AreEqual(32, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
         public void MoveKeyCommandReturnsTrueIfMatrixMoves()
         {
-            Assert.AreEqual(true, this.games.MoveKey("39", this.serviceGame));
-            Assert.AreEqual(true, this.games.MoveKey("38", this.serviceGame));
+            Assert.AreEqual(true, this.games.MoveKey(this.serviceGame, right.ToString()));
+            Assert.AreEqual(true, this.games.MoveKey(this.serviceGame, up.ToString()));
             Assert.AreEqual(32, this.serviceGame.MaxNumber);
         }
     }
