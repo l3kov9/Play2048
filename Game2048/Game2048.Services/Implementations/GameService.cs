@@ -90,50 +90,43 @@
         private bool MoveRight(GameGridServiceModel game)
         {
             var isMoved = false;
+            var field = game.Field;
 
-            for (int i = game.Field.GetLength(0) - 1; i >= 0; i--)
+            for (int i = 0; i < field.GetLength(0); i++)
             {
-                var hasPositiveNumbers = false;
+                var lastPositiveValue = field[i, field.GetLength(1) - 1];
+                var zeroValues = lastPositiveValue != 0 ? 0 : 1;
 
-                for (int k = game.Field.GetLength(1) - 2; k >= 0; k--)
+                for (int k = field.GetLength(1) - 2; k >= 0; k--)
                 {
-                    var previousNumber = game.Field[i, k + 1];
-                    var currentNumber = game.Field[i, k];
+                    var currentNumber = field[i, k];
 
                     if (currentNumber != 0)
                     {
-                        hasPositiveNumbers = true;
-                    }
-
-                    if (previousNumber == 0 && currentNumber != 0)
-                    {
-                        game.Field[i, k + 1] = currentNumber;
-                        game.Field[i, k] = 0;
-                        isMoved = true;
-                        k = game.Field.GetLength(1) - 1;
-                    }
-                }
-
-                if (hasPositiveNumbers)
-                {
-                    for (int k = game.Field.GetLength(1) - 2; k >= 0; k--)
-                    {
-                        var previousNumber = game.Field[i, k + 1];
-                        var currentNumber = game.Field[i, k];
-
-                        if (previousNumber == currentNumber && currentNumber != 0)
+                        if (currentNumber == lastPositiveValue)
                         {
+                            field[i, k + zeroValues + 1] *= 2;
+                            field[i, k] = 0;
+                            lastPositiveValue = 0;
+                            game.CurrentScore += field[i, k + zeroValues + 1];
+                            zeroValues++;
                             isMoved = true;
-                            game.Field[i, k + 1] = currentNumber * 2;
-                            game.Field[i, k] = 0;
-                            game.CurrentScore += game.Field[i, k + 1];
-
-                            for (int j = k; j > 0; j--)
-                            {
-                                game.Field[i, j] = game.Field[i, j - 1];
-                                game.Field[i, j - 1] = 0;
-                            }
                         }
+                        else if (zeroValues > 0)
+                        {
+                            field[i, k + zeroValues] = currentNumber;
+                            field[i, k] = 0;
+                            lastPositiveValue = currentNumber;
+                            isMoved = true;
+                        }
+                        else
+                        {
+                            lastPositiveValue = currentNumber;
+                        }
+                    }
+                    else
+                    {
+                        zeroValues++;
                     }
                 }
             }
@@ -144,51 +137,43 @@
         private bool MoveLeft(GameGridServiceModel game)
         {
             var isMoved = false;
+            var field = game.Field;
 
-            for (int i = 0; i < game.Field.GetLength(0); i++)
+            for (int i = 0; i < field.GetLength(0); i++)
             {
-                var hasPositiveNumbers = false;
+                var lastPositiveValue = field[i, 0];
+                var zeroValues = lastPositiveValue != 0 ? 0 : 1;
 
-                for (int k = 1; k < game.Field.GetLength(1); k++)
+                for (int k = 1; k < field.GetLength(1); k++)
                 {
-                    var previousNumber = game.Field[i, k - 1];
-                    var currentNumber = game.Field[i, k];
+                    var currentNumber = field[i, k];
 
                     if (currentNumber != 0)
                     {
-                        hasPositiveNumbers = true;
-                    }
-
-                    if (previousNumber == 0 && currentNumber != 0)
-                    {
-                        game.Field[i, k - 1] = currentNumber;
-                        game.Field[i, k] = 0;
-
-                        isMoved = true;
-                        k = 0;
-                    }
-                }
-
-                if (hasPositiveNumbers)
-                {
-                    for (int k = 1; k < game.Field.GetLength(1); k++)
-                    {
-                        var previousNumber = game.Field[i, k - 1];
-                        var currentNumber = game.Field[i, k];
-
-                        if (previousNumber == currentNumber && currentNumber != 0)
+                        if (currentNumber == lastPositiveValue)
                         {
+                            field[i, k - zeroValues - 1] *= 2;
+                            field[i, k] = 0;
+                            lastPositiveValue = 0;
+                            game.CurrentScore += field[i, k - zeroValues - 1];
+                            zeroValues++;
                             isMoved = true;
-                            game.Field[i, k - 1] = currentNumber * 2;
-                            game.Field[i, k] = 0;
-                            game.CurrentScore += game.Field[i, k - 1];
-
-                            for (int j = k; j < game.Field.GetLength(1) - 1; j++)
-                            {
-                                game.Field[i, j] = game.Field[i, j + 1];
-                                game.Field[i, j + 1] = 0;
-                            }
                         }
+                        else if (zeroValues > 0)
+                        {
+                            field[i, k - zeroValues] = currentNumber;
+                            field[i, k] = 0;
+                            lastPositiveValue = currentNumber;
+                            isMoved = true;
+                        }
+                        else
+                        {
+                            lastPositiveValue = currentNumber;
+                        }
+                    }
+                    else
+                    {
+                        zeroValues++;
                     }
                 }
             }
@@ -199,44 +184,43 @@
         private bool MoveDown(GameGridServiceModel game)
         {
             var isMoved = false;
+            var field = game.Field;
 
-            for (int i = game.Field.GetLength(0) - 2; i >= 0; i--)
+            for (int i = 0; i < field.GetLength(0); i++)
             {
-                for (int k = game.Field.GetLength(1) - 1; k >= 0; k--)
+                var lastPositiveValue = field[field.GetLength(1) - 1, i];
+                var zeroValues = lastPositiveValue != 0 ? 0 : 1;
+
+                for (int k = field.GetLength(1) - 2; k >= 0; k--)
                 {
-                    var previousNumber = game.Field[i + 1, k];
-                    var currentNumber = game.Field[i, k];
+                    var currentNumber = field[k, i];
 
-                    if (previousNumber == 0 && currentNumber != 0)
+                    if (currentNumber != 0)
                     {
-                        game.Field[i + 1, k] = currentNumber;
-                        game.Field[i, k] = 0;
-                        isMoved = true;
-                        i = game.Field.GetLength(0) - 2;
-                        k = game.Field.GetLength(1);
-                    }
-                }
-            }
-
-            for (int i = game.Field.GetLength(0) - 1; i >= 0; i--)
-            {
-                for (int k = game.Field.GetLength(1) - 2; k >= 0; k--)
-                {
-                    var previousNumber = game.Field[k + 1, i];
-                    var currentNumber = game.Field[k, i];
-
-                    if (previousNumber == currentNumber && currentNumber != 0)
-                    {
-                        isMoved = true;
-                        game.Field[k + 1, i] = currentNumber * 2;
-                        game.Field[k, i] = 0;
-                        game.CurrentScore += game.Field[k + 1, i];
-
-                        for (int j = k; j > 0; j--)
+                        if (currentNumber == lastPositiveValue)
                         {
-                            game.Field[j, i] = game.Field[j - 1, i];
-                            game.Field[j - 1, i] = 0;
+                            field[k + zeroValues + 1, i] *= 2;
+                            field[k, i] = 0;
+                            lastPositiveValue = 0;
+                            game.CurrentScore += field[k + zeroValues + 1, i];
+                            zeroValues++;
+                            isMoved = true;
                         }
+                        else if (zeroValues > 0)
+                        {
+                            field[k + zeroValues, i] = currentNumber;
+                            field[k, i] = 0;
+                            lastPositiveValue = currentNumber;
+                            isMoved = true;
+                        }
+                        else
+                        {
+                            lastPositiveValue = currentNumber;
+                        }
+                    }
+                    else
+                    {
+                        zeroValues++;
                     }
                 }
             }
@@ -247,50 +231,43 @@
         private bool MoveUp(GameGridServiceModel game)
         {
             var isMoved = false;
+            var field = game.Field;
 
-            for (int i = 0; i < game.Field.GetLength(0); i++)
+            for (int i = 0; i < field.GetLength(0); i++)
             {
-                var hasPositiveNumbers = false;
+                var lastPositiveValue = field[0, i];
+                var zeroValues = lastPositiveValue != 0 ? 0 : 1;
 
-                for (int k = 1; k < game.Field.GetLength(1); k++)
+                for (int k = 1; k < field.GetLength(1); k++)
                 {
-                    var previousNumber = game.Field[k - 1, i];
-                    var currentNumber = game.Field[k, i];
+                    var currentNumber = field[k, i];
 
                     if (currentNumber != 0)
                     {
-                        hasPositiveNumbers = true;
-                    }
-
-                    if (previousNumber == 0 && currentNumber != 0)
-                    {
-                        game.Field[k - 1, i] = currentNumber;
-                        game.Field[k, i] = 0;
-                        isMoved = true;
-                        k = 0;
-                    }
-                }
-
-                if (hasPositiveNumbers)
-                {
-                    for (int k = 1; k < game.Field.GetLength(1); k++)
-                    {
-                        var previousNumber = game.Field[k - 1, i];
-                        var currentNumber = game.Field[k, i];
-
-                        if (previousNumber == currentNumber && currentNumber != 0)
+                        if (currentNumber == lastPositiveValue)
                         {
+                            field[k - zeroValues - 1, i] *= 2;
+                            field[k, i] = 0;
+                            lastPositiveValue = 0;
+                            game.CurrentScore += field[k - zeroValues - 1, i];
+                            zeroValues++;
                             isMoved = true;
-                            game.Field[k - 1, i] = currentNumber * 2;
-                            game.Field[k, i] = 0;
-                            game.CurrentScore += game.Field[k - 1, i];
-
-                            for (int j = k; j < game.Field.GetLength(1) - 1; j++)
-                            {
-                                game.Field[j, i] = game.Field[j + 1, i];
-                                game.Field[j + 1, i] = 0;
-                            }
                         }
+                        else if (zeroValues > 0)
+                        {
+                            field[k - zeroValues, i] = currentNumber;
+                            field[k, i] = 0;
+                            lastPositiveValue = currentNumber;
+                            isMoved = true;
+                        }
+                        else
+                        {
+                            lastPositiveValue = currentNumber;
+                        }
+                    }
+                    else
+                    {
+                        zeroValues++;
                     }
                 }
             }

@@ -6,7 +6,6 @@
     using Services;
     using Services.Models;
 
-    using static Common.GameConstants;
     using static Common.GameFieldHelpers;
 
     public class GamesController : Controller
@@ -26,11 +25,20 @@
 
         public IActionResult Index()
         {
-            this.game.Field = this.gameManager.RestartGameField();
+            if (this.GetSessionString(SessionGameFieldKey) == null)
+            {
+                this.game.Field = this.gameManager.RestartGameField();
 
-            this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
-            this.SetSessionInt(SessionScoreKey, 0);
-            this.SetSessionInt(SessionMaxNumKey, 0);
+                this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
+                this.SetSessionInt(SessionScoreKey, 0);
+                this.SetSessionInt(SessionMaxNumKey, 0);
+            }
+            else
+            {
+                this.game.Field = GetMatrixFromString(this.GetSessionString(SessionGameFieldKey));
+                this.game.CurrentScore = this.GetSessionInt(SessionScoreKey);
+                this.game.MaxNumber = this.GetSessionInt(SessionMaxNumKey);
+            }
 
             return View(this.game);
         }
@@ -52,6 +60,13 @@
             this.SetSessionInt(SessionMaxNumKey, this.game.MaxNumber);
 
             return PartialView("_GameBoardPartial", game);
+        }
+
+        public IActionResult NewGame()
+        {
+            this.HttpContext.Session.Clear();
+
+            return RedirectToAction(nameof(Index));
         }
 
         private GameGridServiceModel MoveGameField(int[,] gameField, int currentScore, string direction)
@@ -78,37 +93,29 @@
 
         private void CheckIfGameIsOver(GameGridServiceModel gameServiceModel)
         {
-            var zeroValuesLength = GetZeroIndexes(gameServiceModel.Field).Count;
+            var field = gameServiceModel.Field;
 
-            if (zeroValuesLength == 0)
+            for (int i = 0; i < field.GetLength(0) - 1; i++)
             {
-                var testGameField = new int[gameServiceModel.Field.GetLength(0), gameServiceModel.Field.GetLength(1)];
-
-                for (int i = 0; i < testGameField.GetLength(0); i++)
+                for (int k = 0; k < field.GetLength(1) - 1; k++)
                 {
-                    for (int k = 0; k < testGameField.GetLength(1); k++)
+                    if (field[i, k] == field[i, k + 1] || field[i, k] == field[i + 1, k])
                     {
-                        testGameField[i, k] = gameServiceModel.Field[i, k];
+                        return;
                     }
                 }
+            }
 
-                var testGame = new GameGridServiceModel()
+            for (int i = 0; i < field.GetLength(0) - 1; i++)
+            {
+                if (field[field.GetLength(0) - 1, i] == field[field.GetLength(0) - 1, i + 1]
+                    || field[i, field.GetLength(0) - 1] == field[i + 1, field.GetLength(0) - 1])
                 {
-                    Field = testGameField,
-                    CurrentScore = gameServiceModel.CurrentScore
-                };
-
-                foreach (var direction in Directions)
-                {
-                    this.gameManager.MoveKey(testGame, direction);
-                }
-
-                var testGameNonZeroValuesLength = GetZeroIndexes(testGame.Field).Count;
-                if (testGameNonZeroValuesLength == 0)
-                {
-                    gameServiceModel.IsFinished = true;
+                    return;
                 }
             }
+
+            gameServiceModel.IsFinished = true;
         }
     }
 }

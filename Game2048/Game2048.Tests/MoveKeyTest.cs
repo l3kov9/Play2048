@@ -29,6 +29,7 @@
                     {16,32,0,0}
                 }
             };
+
             this.serviceGame = new GameGridServiceModel()
             {
                 Field = this.game.Field,
