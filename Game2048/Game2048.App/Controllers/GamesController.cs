@@ -5,7 +5,7 @@
     using Models;
     using Services;
     using Services.Models;
-
+    using System.Linq;
     using static Common.GameFieldHelpers;
 
     public class GamesController : Controller
@@ -25,13 +25,9 @@
 
         public IActionResult Index()
         {
-            if (this.GetSessionString(SessionGameFieldKey) == null)
+            if (!this.HttpContext.Session.Keys.Any())
             {
-                this.game.Field = this.gameManager.RestartGameField();
-
-                this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
-                this.SetSessionInt(SessionScoreKey, 0);
-                this.SetSessionInt(SessionMaxNumKey, 0);
+                RestartField();
             }
             else
             {
@@ -46,27 +42,36 @@
         [HttpPost]
         public IActionResult Index(string direction)
         {
-            var gameField = GetMatrixFromString(this.GetSessionString(SessionGameFieldKey));
-            var currentScore = this.GetSessionInt(SessionScoreKey);
-            var gameServiceModel = MoveGameField(gameField, currentScore, direction);
+            if (string.IsNullOrEmpty(direction))
+            {
+                RestartField();
+            }
+            else
+            {
+                var gameField = GetMatrixFromString(this.GetSessionString(SessionGameFieldKey));
+                var currentScore = this.GetSessionInt(SessionScoreKey);
+                var gameServiceModel = MoveGameField(gameField, currentScore, direction);
 
-            this.game.Field = gameServiceModel.Field;
-            this.game.CurrentScore = gameServiceModel.CurrentScore;
-            this.game.IsFinished = gameServiceModel.IsFinished;
-            this.game.MaxNumber = gameServiceModel.MaxNumber;
+                this.game.Field = gameServiceModel.Field;
+                this.game.CurrentScore = gameServiceModel.CurrentScore;
+                this.game.IsFinished = gameServiceModel.IsFinished;
+                this.game.MaxNumber = gameServiceModel.MaxNumber;
 
-            this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
-            this.SetSessionInt(SessionScoreKey, this.game.CurrentScore);
-            this.SetSessionInt(SessionMaxNumKey, this.game.MaxNumber);
+                this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
+                this.SetSessionInt(SessionScoreKey, this.game.CurrentScore);
+                this.SetSessionInt(SessionMaxNumKey, this.game.MaxNumber);
+            }
 
-            return PartialView("_GameBoardPartial", game);
+            return PartialView("_GameBoardPartial", this.game);
         }
 
-        public IActionResult NewGame()
+        private void RestartField()
         {
-            this.HttpContext.Session.Clear();
+            this.game.Field = this.gameManager.RestartGameField();
 
-            return RedirectToAction(nameof(Index));
+            this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
+            this.SetSessionInt(SessionScoreKey, 0);
+            this.SetSessionInt(SessionMaxNumKey, this.game.MaxNumber);
         }
 
         private GameGridServiceModel MoveGameField(int[,] gameField, int currentScore, string direction)

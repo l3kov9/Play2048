@@ -29,3 +29,14 @@
         }
     }
 });
+
+function startNewGame() {
+    $.ajax({
+        url: "Games/Index/",
+        type: "post",
+        data: $("#gameForm").serialize(),
+        success: function (result) {
+            $("#partial").html(result);
+        }
+    });
+}
