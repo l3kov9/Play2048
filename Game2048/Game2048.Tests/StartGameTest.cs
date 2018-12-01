@@ -1,7 +1,7 @@
 namespace Game2048.Tests
 {
     using App.Models;
-    using Common;
+    using Common.FieldManipulations;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Services;
     using Services.Implementations;
@@ -25,7 +25,7 @@ namespace Game2048.Tests
             for (int i = 0; i < 1000; i++)
             {
                 game.Field = games.RestartGameField();
-                var nonZeroNumbers = GameFieldHelpers.GetNonZeroNumbers(game.Field);
+                var nonZeroNumbers = FieldHelper.GetNonZeroNumbers(game.Field);
 
                 Assert.AreEqual(2, nonZeroNumbers.Count);
                 Assert.AreEqual(2, nonZeroNumbers.Count(n => n == 2 || n == 4));

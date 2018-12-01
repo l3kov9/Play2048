@@ -46,3 +46,10 @@ td {
     margin-bottom: 50px;
     font-family: cursive;
 }
+
+#topPlayersHeading {
+    margin-top: 75px;
+    margin-bottom: 50px;
+    font-family: cursive;
+    text-align:right;
+}

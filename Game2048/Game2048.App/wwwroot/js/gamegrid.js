@@ -30,6 +30,18 @@
     }
 });
 
+function saveGame() {
+    let username = $('#username').val();
+
+    $.ajax({
+        url: "Games/SaveGame?username=" + username,
+        type: "post",
+        success: function (result) {
+            $("#highScorePartial").html(result);
+        }
+    });
+}
+
 function startNewGame() {
     $.ajax({
         url: "Games/Index/",

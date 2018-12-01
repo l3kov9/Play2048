@@ -1,4 +1,4 @@
-﻿namespace Game2048.Common
+﻿namespace Game2048.Common.FieldManipulations
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
 
     using static GameConstants;
 
-    public static class GameFieldHelpers
+    public static class FieldHelper
     {
         public static List<int> GetNonZeroNumbers(int[,] gameField)
         {
@@ -93,6 +93,24 @@
             }
 
             return result;
+        }
+
+        public static bool HasZeroValues(int[,] field)
+        {
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                for (int k = 0; k < field.GetLength(1); k++)
+                {
+                    var currentElement = field[i, k];
+                    
+                    if(currentElement == 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

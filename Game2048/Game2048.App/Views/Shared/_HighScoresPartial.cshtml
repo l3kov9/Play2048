@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Game2048.Services.Models.ScoreServiceModel>
+
+<div id="highScorePartial">
+    <h1 id="topPlayersHeading"><strong>Top Players</strong></h1>
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var score = Model.ElementAt(i);
+        var rank = i + 1;
+        var isWinner = score.HasWon;
+
+        <div class="row">@rank. <strong>@score.Username</strong> @score.FinalScore @(isWinner ? "WINNER" : string.Empty)</div>
+    }
+</div>

@@ -8,9 +8,11 @@
             HOW TO PLAY: Use your arrow keys to move the tiles. When two tiles with the same number touch, they merge into one!
         </p>
     </div>
-    <div class="col-md-1"></div>
     <div class="col-md-6">
         @await Html.PartialAsync("_GameBoardPartial", Model)
+    </div>
+    <div class="col-md-3">
+        @await Html.PartialAsync("_HighScoresPartial", Model.HighScores)
     </div>
 </div>
 <div style="height:50px"></div>

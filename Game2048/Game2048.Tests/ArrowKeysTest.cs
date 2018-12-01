@@ -6,7 +6,7 @@
     using Services.Implementations;
     using Services.Models;
 
-    using static Common.Directions;
+    using static Common.Enums.Direction;
 
     [TestClass]
     public class ArrowKeysTest
@@ -39,7 +39,7 @@
         [TestMethod]
         public void RightArrowGetsCorrectValues()
         {
-            this.games.MoveKey(this.serviceGame, right.ToString());
+            this.games.MoveKey(this.serviceGame, Right);
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
                 {
@@ -61,7 +61,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey(this.serviceGame, right.ToString());
+                this.games.MoveKey(this.serviceGame, Right);
             }
 
             var actualMatrix = this.game.Field;
@@ -84,7 +84,7 @@
         [TestMethod]
         public void LeftArrowGetsCorrectValues()
         {
-            this.games.MoveKey(this.serviceGame, left.ToString());
+            this.games.MoveKey(this.serviceGame, Left);
 
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
@@ -107,7 +107,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey(this.serviceGame, left.ToString());
+                this.games.MoveKey(this.serviceGame, Left);
             }
 
             var actualMatrix = this.game.Field;
@@ -129,7 +129,7 @@
         [TestMethod]
         public void UpArrowGetsCorrectValues()
         {
-            this.games.MoveKey(this.serviceGame, up.ToString());
+            this.games.MoveKey(this.serviceGame, Up);
 
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
@@ -152,7 +152,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey(this.serviceGame, up.ToString());
+                this.games.MoveKey(this.serviceGame, Up);
             }
 
             var actualMatrix = this.game.Field;
@@ -174,7 +174,7 @@
         [TestMethod]
         public void DownArrowGetsCorrectValues()
         {
-            this.games.MoveKey(this.serviceGame, down.ToString());
+            this.games.MoveKey(this.serviceGame, Down);
 
             var actualMatrix = this.game.Field;
             var expectedMatrix = new int[,]
@@ -197,7 +197,7 @@
         {
             for (int i = 0; i < 20; i++)
             {
-                this.games.MoveKey(this.serviceGame, down.ToString());
+                this.games.MoveKey(this.serviceGame, Down);
             }
 
             var actualMatrix = this.game.Field;
@@ -220,18 +220,18 @@
         public void MixedArrowKeysGetsCorrectValues()
         {
             //left
-            this.games.MoveKey(this.serviceGame, left.ToString());
+            this.games.MoveKey(this.serviceGame, Left);
             //down
-            this.games.MoveKey(this.serviceGame, down.ToString());
+            this.games.MoveKey(this.serviceGame, Down);
             //left
-            this.games.MoveKey(this.serviceGame, left.ToString());
+            this.games.MoveKey(this.serviceGame, Left);
             //right
-            this.games.MoveKey(this.serviceGame, right.ToString());
+            this.games.MoveKey(this.serviceGame, Right);
 
             for (int i = 0; i < 5; i++)
             {
                 //up
-                this.games.MoveKey(this.serviceGame, up.ToString());
+                this.games.MoveKey(this.serviceGame, Up);
             }
 
             var actualMatrix = this.game.Field;
@@ -262,15 +262,15 @@
                 };
 
             //right
-            this.games.MoveKey(this.serviceGame, right.ToString());
+            this.games.MoveKey(this.serviceGame, Right);
             //up
-            this.games.MoveKey(this.serviceGame, up.ToString());
+            this.games.MoveKey(this.serviceGame, Up);
             //right
-            this.games.MoveKey(this.serviceGame, right.ToString());
+            this.games.MoveKey(this.serviceGame, Right);
             //down
-            this.games.MoveKey(this.serviceGame, down.ToString());
+            this.games.MoveKey(this.serviceGame, Down);
             //right
-            this.games.MoveKey(this.serviceGame, right.ToString());
+            this.games.MoveKey(this.serviceGame, Right);
 
             Assert.AreEqual(468, this.serviceGame.CurrentScore);
             Assert.AreEqual(128, this.serviceGame.MaxNumber);

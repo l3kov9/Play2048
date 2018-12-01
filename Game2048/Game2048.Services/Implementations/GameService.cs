@@ -3,6 +3,7 @@
     using Models;
     using System;
 
+    using static Common.Enums.Direction;
     using static Common.GameConstants;
 
     public class GameService : IGameService
@@ -39,25 +40,25 @@
             return gameGrid;
         }
 
-        public bool MoveKey(GameGridServiceModel game, string direction)
+        public bool MoveKey(GameGridServiceModel game, Enum direction)
             => MoveGrid(game, direction);
 
-        private bool MoveGrid(GameGridServiceModel game, string direction)
+        private bool MoveGrid(GameGridServiceModel game, Enum direction)
         {
             var isMoved = false;
 
             switch (direction)
             {
-                case "left":
+                case Left:
                     isMoved = MoveLeft(game);
                     break;
-                case "right":
+                case Right:
                     isMoved = MoveRight(game);
                     break;
-                case "up":
+                case Up:
                     isMoved = MoveUp(game);
                     break;
-                case "down":
+                case Down:
                     isMoved = MoveDown(game);
                     break;
                 default:

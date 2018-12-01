@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Game2048.Common\Game2048.Common.csproj" />
+    <ProjectReference Include="..\Game2048.Data\Game2048.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,6 @@
 
         public static int TotalRndNumbersForStart = 2;
 
-        public static string[] Directions => new[] { "left", "right", "up", "down" };
+        public static string ConnectinString = "Server=.;Database=Game2048Db;Integrated Security=True;";
     }
 }

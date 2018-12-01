@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     using static Common.GameConstants;
-    using static Common.GameFieldHelpers;
+    using static Common.FieldManipulations.FieldHelper;
 
     [TestClass]
     public class GridManipulationsTest
@@ -81,7 +81,7 @@
         [TestMethod]
         public void GetZeroIndexesReturnsCorrectValues()
         {
-            var result = new List<KeyValuePair<int, int>>
+            var expected = new List<KeyValuePair<int, int>>
             {
                 new KeyValuePair<int, int>(0, 1),
                 new KeyValuePair<int, int>(1, 0),
@@ -91,6 +91,18 @@
                 new KeyValuePair<int, int>(3, 0),
                 new KeyValuePair<int, int>(3, 2),
             };
+
+            var actualResult = GetZeroIndexes(this.grid);
+
+            CollectionAssert.AreEqual(expected, actualResult);
+        }
+
+        [TestMethod]
+        public void HasZeroValuesReturnsCorrectValues()
+        {
+            var actualResult = HasZeroValues(this.grid);
+
+            Assert.AreEqual(true, actualResult);
         }
     }
 }

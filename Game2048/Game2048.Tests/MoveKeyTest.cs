@@ -6,7 +6,7 @@
     using Services.Implementations;
     using Services.Models;
 
-    using static Common.Directions;
+    using static Common.Enums.Direction;
 
     [TestClass]
     public class MoveKeyTest
@@ -40,16 +40,16 @@
         [TestMethod]
         public void MoveKeyCommandReturnsFalseIfMatrixNotMoved()
         {
-            Assert.AreEqual(false, this.games.MoveKey(this.serviceGame, left.ToString()));
-            Assert.AreEqual(false, this.games.MoveKey(this.serviceGame, down.ToString()));
+            Assert.AreEqual(false, this.games.MoveKey(this.serviceGame, Left));
+            Assert.AreEqual(false, this.games.MoveKey(this.serviceGame, Down));
             Assert.AreEqual(32, this.serviceGame.MaxNumber);
         }
 
         [TestMethod]
         public void MoveKeyCommandReturnsTrueIfMatrixMoves()
         {
-            Assert.AreEqual(true, this.games.MoveKey(this.serviceGame, right.ToString()));
-            Assert.AreEqual(true, this.games.MoveKey(this.serviceGame, up.ToString()));
+            Assert.AreEqual(true, this.games.MoveKey(this.serviceGame, Right));
+            Assert.AreEqual(true, this.games.MoveKey(this.serviceGame, Up));
             Assert.AreEqual(32, this.serviceGame.MaxNumber);
         }
     }
