@@ -12,14 +12,14 @@
     public class ArrowKeysTest
     {
         private IGameService games;
-        private Game game;
+        private GameViewModel game;
         private GameGridServiceModel serviceGame;
 
         [TestInitialize]
         public void SetInit()
         {
             this.games = new GameService();
-            this.game = new Game
+            this.game = new GameViewModel
             {
                 Field = new int[,]
                 {

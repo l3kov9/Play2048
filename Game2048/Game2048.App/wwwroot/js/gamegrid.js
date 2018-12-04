@@ -1,6 +1,6 @@
 ﻿$(document).keydown(function (event) {
     var keyCode = event.keyCode;
-    let gameOverMessage = $('#gameOverMessage').html();
+    let gameOverMessage = $('#gameOverMessage');
 
     if (gameOverMessage.length === 0) {
         if (keyCode >= 37 && keyCode <= 40) {
@@ -32,6 +32,12 @@
 
 function saveGame() {
     let username = $('#username').val();
+    if (username.length < 3 || username.length > 10) {
+        $("#errorMessage").html("<div style=\"color: red\">Username should be between 3 and 10 symbols!</div>");
+    }
+    else {
+        $("#saveUsername").html("");
+    }
 
     $.ajax({
         url: "Games/SaveGame?username=" + username,

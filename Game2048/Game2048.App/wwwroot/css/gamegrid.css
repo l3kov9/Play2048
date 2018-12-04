@@ -53,3 +53,10 @@ td {
     font-family: cursive;
     text-align:right;
 }
+
+#highscoreRow {
+    color: lightslategrey;
+    font-size: 17px;
+    margin-top: 5px;
+    font-family:'Courier New';
+}

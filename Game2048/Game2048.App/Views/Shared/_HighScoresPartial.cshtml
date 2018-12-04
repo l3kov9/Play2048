@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Game2048.Services.Models.ScoreServiceModel>
+﻿@model IEnumerable<ScoreServiceModel>
 
 <div id="highScorePartial">
     <h1 id="topPlayersHeading"><strong>Top Players</strong></h1>
@@ -8,6 +8,6 @@
         var rank = i + 1;
         var isWinner = score.HasWon;
 
-        <div class="row">@rank. <strong>@score.Username</strong> @score.FinalScore @(isWinner ? "WINNER" : string.Empty)</div>
+        <div id="highscoreRow" class="row col-md-offset-2"><span class="text-success">@rank</span>. <strong>@score.Username</strong> <span class="text-danger">@score.FinalScore</span> @(isWinner ? "/Winner/" : string.Empty)</div>
     }
 </div>

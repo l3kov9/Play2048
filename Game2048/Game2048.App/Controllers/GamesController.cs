@@ -21,13 +21,13 @@
 
         private readonly IUserService userManager;
         private readonly IGameService gameManager;
-        private readonly Game game;
+        private readonly GameViewModel game;
 
         public GamesController(IUserService userManager, IGameService gameManager)
         {
             this.userManager = userManager;
             this.gameManager = gameManager;
-            this.game = new Game();
+            this.game = new GameViewModel();
         }
 
         public IActionResult Index()
@@ -41,6 +41,7 @@
                 this.game.Field = GetMatrixFromString(this.GetSessionString(SessionGameFieldKey));
                 this.game.CurrentScore = this.GetSessionInt(SessionScoreKey);
                 this.game.MaxNumber = this.GetSessionInt(SessionMaxNumKey);
+                this.game.IsFinished = Convert.ToBoolean(this.GetSessionInt(SessionSendResultKey));
             }
 
             this.game.HighScores = this.userManager.GetHighScores(TopPlayersViewCount);
@@ -78,6 +79,11 @@
         [HttpPost]
         public IActionResult SaveGame(string username)
         {
+            if (username.Length < 3 || username.Length > 10 || this.GetSessionInt(SessionSendResultKey) == 1)
+            {
+                return PartialView("_GameBoardPartial", this.game.HighScores);
+            }
+
             var finalScore = this.GetSessionInt(SessionScoreKey);
             var maxNumber = this.GetSessionInt(SessionMaxNumKey);
 
@@ -120,6 +126,7 @@
             this.SetSessionString(SessionGameFieldKey, ConvertMatrixToString(this.game.Field));
             this.SetSessionInt(SessionScoreKey, 0);
             this.SetSessionInt(SessionMaxNumKey, this.game.MaxNumber);
+            this.SetSessionInt(SessionSendResultKey, 0);
         }
 
         private GameGridServiceModel MoveGameField(int[,] gameField, int currentScore, Enum direction)

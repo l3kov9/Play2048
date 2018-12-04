@@ -20,7 +20,7 @@ namespace Game2048.Tests
         [TestMethod]
         public void FieldGetsCorrectValues()
         {
-            var game = new Game();
+            var game = new GameViewModel();
 
             for (int i = 0; i < 1000; i++)
             {

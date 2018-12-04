@@ -17,7 +17,12 @@
 
         public void AddScore(string username, int finalScore, int maxNumber)
         {
-            if (!this.db.Users.Any(u => u.Username == username))
+            var userId = this.db.Users
+                .Where(u => u.Username == username)
+                .Select(u => u.Id)
+                .FirstOrDefault();
+
+            if (userId == 0)
             {
                 this.db.Users.Add(new User() { Username = username });
                 this.db.SaveChanges();
@@ -27,7 +32,7 @@
             {
                 FinalScore = finalScore,
                 MaxNumber = maxNumber,
-                UserId = this.db.Users.Where(u=>u.Username == username).FirstOrDefault().Id
+                UserId = this.db.Users.Where(u=>u.Username == username).First().Id
             });
 
             this.db.SaveChanges();
