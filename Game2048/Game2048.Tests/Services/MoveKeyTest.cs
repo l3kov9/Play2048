@@ -13,7 +13,7 @@
     {
         private IGameService games;
         private GameViewModel game;
-        private GameGridServiceModel serviceGame;
+        private GameServiceModel serviceGame;
 
         [TestInitialize]
         public void SetInit()
@@ -30,7 +30,7 @@
                 }
             };
 
-            this.serviceGame = new GameGridServiceModel()
+            this.serviceGame = new GameServiceModel()
             {
                 Field = this.game.Field,
                 CurrentScore = this.game.CurrentScore

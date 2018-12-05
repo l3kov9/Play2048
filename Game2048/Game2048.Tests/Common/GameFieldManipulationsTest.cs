@@ -7,7 +7,7 @@
     using static Common.FieldManipulations.FieldHelper;
 
     [TestClass]
-    public class GridManipulationsTest
+    public class GameFieldManipulationsTest
     {
         private int[,] grid;
 

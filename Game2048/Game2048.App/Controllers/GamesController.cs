@@ -45,7 +45,7 @@
             }
 
             this.game.HighScores = this.userManager.GetHighScores(TopPlayersViewCount);
-
+           
             return View(this.game);
         }
 
@@ -129,9 +129,9 @@
             this.SetSessionInt(SessionSendResultKey, 0);
         }
 
-        private GameGridServiceModel MoveGameField(int[,] gameField, int currentScore, Enum direction)
+        private GameServiceModel MoveGameField(int[,] gameField, int currentScore, Enum direction)
         {
-            var gameServiceModel = new GameGridServiceModel()
+            var gameServiceModel = new GameServiceModel()
             {
                 Field = gameField,
                 CurrentScore = currentScore

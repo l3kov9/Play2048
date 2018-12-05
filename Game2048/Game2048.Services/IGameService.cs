@@ -7,6 +7,6 @@
     {
         int[,] RestartGameField();
 
-        bool MoveKey(GameGridServiceModel game, Enum direction);
+        bool MoveKey(GameServiceModel game, Enum direction);
     }
 }

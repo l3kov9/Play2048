@@ -1,6 +1,6 @@
 ﻿namespace Game2048.Services.Models
 {
-    public class GameGridServiceModel
+    public class GameServiceModel
     {
         public int[,] Field { get; set; }
 

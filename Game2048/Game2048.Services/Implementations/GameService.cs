@@ -40,10 +40,10 @@
             return gameGrid;
         }
 
-        public bool MoveKey(GameGridServiceModel game, Enum direction)
+        public bool MoveKey(GameServiceModel game, Enum direction)
             => MoveGrid(game, direction);
 
-        private bool MoveGrid(GameGridServiceModel game, Enum direction)
+        private bool MoveGrid(GameServiceModel game, Enum direction)
         {
             var isMoved = false;
 
@@ -70,7 +70,7 @@
             return isMoved;
         }
 
-        private void UpdateMaxNumber(GameGridServiceModel game)
+        private void UpdateMaxNumber(GameServiceModel game)
         {
             var maxNumber = 0;
 
@@ -88,7 +88,7 @@
             game.MaxNumber = maxNumber;
         }
 
-        private bool MoveRight(GameGridServiceModel game)
+        private bool MoveRight(GameServiceModel game)
         {
             var isMoved = false;
             var field = game.Field;
@@ -135,7 +135,7 @@
             return isMoved;
         }
 
-        private bool MoveLeft(GameGridServiceModel game)
+        private bool MoveLeft(GameServiceModel game)
         {
             var isMoved = false;
             var field = game.Field;
@@ -182,7 +182,7 @@
             return isMoved;
         }
 
-        private bool MoveDown(GameGridServiceModel game)
+        private bool MoveDown(GameServiceModel game)
         {
             var isMoved = false;
             var field = game.Field;
@@ -229,7 +229,7 @@
             return isMoved;
         }
 
-        private bool MoveUp(GameGridServiceModel game)
+        private bool MoveUp(GameServiceModel game)
         {
             var isMoved = false;
             var field = game.Field;

@@ -36,8 +36,9 @@
                     <div class="col-md-3">
                         @{
                             var numberToShow = Model.Field[i, k] == 0 ? string.Empty : Model.Field[i, k].ToString();
+                            var inputId = $"inputField{numberToShow}";
                         }
-                        <input value="@numberToShow" class="form-control" id="inputField" readonly />
+                        <input value="@numberToShow" class="form-control" id=@inputId readonly />
                     </div>
                 }
             </div>

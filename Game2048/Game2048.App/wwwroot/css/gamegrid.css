@@ -11,21 +11,6 @@ td {
     font-family: NSimSun;
 }
 
-#inputField:hover {
-    background-color: lightseagreen;
-}
-
-#inputField {
-    background-color: cornflowerblue;
-    height: 100px;
-    text-align: center;
-    margin: 7px;
-    vertical-align: middle;
-    text-shadow: 3px 2px red;
-    font-size: 45px;
-    font-family: NSimSun;
-}
-
 #scoreField {
     background-color: lightgreen;
     height: 30px;
@@ -59,4 +44,140 @@ td {
     font-size: 17px;
     margin-top: 5px;
     font-family:'Courier New';
+}
+
+#inputField:hover {
+    background-color: lightgray;
+}
+
+#inputField {
+    background-color: lightgray;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField2 {
+    background-color: #c2d6d6;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField4 {
+    background-color: #a3c2c2;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField8 {
+    background-color: #85adad;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField16 {
+    background-color: #c2c2a3;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField32 {
+    background-color: lightsteelblue;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField64 {
+    background-color: lightpink;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField128 {
+    background-color: lightcoral;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField256 {
+    background-color: lightsalmon;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField512 {
+    background-color: palevioletred;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField1024 {
+    background-color: red;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 45px;
+    font-family: NSimSun;
+}
+
+#inputField2048 {
+    background-color: black;
+    height: 100px;
+    text-align: center;
+    margin: 7px;
+    vertical-align: middle;
+    text-shadow: 3px 2px red;
+    font-size: 43px;
+    font-family: NSimSun;
 }
